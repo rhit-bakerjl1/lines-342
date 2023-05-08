@@ -1,0 +1,48 @@
+clc
+clear variables
+close all
+
+player_data =table2cell(readtable('pll-player-stats.csv','ReadVariableNames',false));
+player_data(:,3)=[];
+[len,~]=size(player_data);
+SSDMdex=1;
+FOdex=1;
+Gdex=1;
+Mdex=1;
+Adex=1;
+LSMdex=1;
+Ddex=1;
+
+SSDMdat=num2cell(zeros(22,39));
+FOdat=zeros(15,39);
+Gdat=zeros(2,39);
+Mdat=zeros(53,39);
+Adat=zeros(49,39);
+LSMdat=zeros(17,39);
+Ddat=zeros(41,39);
+
+
+for i=1:len
+    if 1==strcmp('SSDM',player_data(i,3))
+        SSDMdat(SSDMdex,:)=player_data(i,:);
+        SSDMdex=SSDMdex+1;
+    end
+    if 1==strcmp('FO',player_data(i,3))
+        FOdex=FOdex+1;
+    end
+    if 1==strcmp('G',player_data(i,3))
+        Gdex=Gdex+1;
+    end
+    if 1==strcmp('M',player_data(i,3))
+        Mdex=Mdex+1;
+    end
+    if 1==strcmp('A',player_data(i,3))
+        Adex=Adex+1;
+    end
+    if 1==strcmp('LSM',player_data(i,3))
+        LSMdex=LSMdex+1;
+    end
+    if 1==strcmp('D',player_data(i,3))
+        Ddex=Ddex+1;
+    end
+end

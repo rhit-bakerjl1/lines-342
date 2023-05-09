@@ -3,6 +3,13 @@ clear variables
 close all
 
 player_data =table2cell(readtable('pll-player-stats.csv','ReadVariableNames',false));
+player_data(:,end+1)=num2cell(2021);
+temp_dat=table2cell(readtable('pllplayerstats2020.csv','ReadVariableNames',false));
+temp_dat(:,end+1)=num2cell(2020);
+player_data=[player_data;temp_dat];
+temp_dat=table2cell(readtable('pllplayerstats2019.csv','ReadVariableNames',false));
+temp_dat(:,end+1)=num2cell(2019);
+player_data=[player_data;temp_dat];
 player_data(:,3)=[];
 [len,~]=size(player_data);
 SSDMdex=1;
@@ -12,37 +19,44 @@ Mdex=1;
 Adex=1;
 LSMdex=1;
 Ddex=1;
-
-SSDMdat=num2cell(zeros(22,39));
-FOdat=zeros(15,39);
-Gdat=zeros(2,39);
-Mdat=zeros(53,39);
-Adat=zeros(49,39);
-LSMdat=zeros(17,39);
-Ddat=zeros(41,39);
-
-
 for i=1:len
-    if 1==strcmp('SSDM',player_data(i,3))
-        SSDMdat(SSDMdex,:)=player_data(i,:);
-        SSDMdex=SSDMdex+1;
+    if cell2mat(player_data(i,4))~=0
+        if 1==strcmp('SSDM',player_data(i,3))
+            SSDMdat(SSDMdex,:)=player_data(i,:);
+            SSDMdex=SSDMdex+1;
+        end
+        if 1==strcmp('FO',player_data(i,3))
+            FOdat(FOdex,:)=player_data(i,:);
+            FOdex=FOdex+1;
+        end
+        if 1==strcmp('G',player_data(i,3))
+            Gdat(Gdex,:)=player_data(i,:);
+            Gdex=Gdex+1;
+        end
+        if 1==strcmp('M',player_data(i,3))
+            Mdat(Mdex,:)=player_data(i,:);
+            Mdex=Mdex+1;
+        end
+        if 1==strcmp('A',player_data(i,3))
+            Adat(Adex,:)=player_data(i,:);
+            Adex=Adex+1;
+        end
+        if 1==strcmp('LSM',player_data(i,3))
+            LSMdat(LSMdex,:)=player_data(i,:);
+            LSMdex=LSMdex+1;
+        end
+        if 1==strcmp('D',player_data(i,3))
+            Ddat(Ddex,:)=player_data(i,:);
+            Ddex=Ddex+1;
+        end
     end
-    if 1==strcmp('FO',player_data(i,3))
-        FOdex=FOdex+1;
-    end
-    if 1==strcmp('G',player_data(i,3))
-        Gdex=Gdex+1;
-    end
-    if 1==strcmp('M',player_data(i,3))
-        Mdex=Mdex+1;
-    end
-    if 1==strcmp('A',player_data(i,3))
-        Adex=Adex+1;
-    end
-    if 1==strcmp('LSM',player_data(i,3))
-        LSMdex=LSMdex+1;
-    end
-    if 1==strcmp('D',player_data(i,3))
-        Ddex=Ddex+1;
+end
+for i=1:(Mdex-1)
+    if 1==strcmp('Schreiber',Mdat(i,2)) && Mdat(i,40)~=cell2mat(2021)
+        Mdat(i,end+1)=1;
+    elseif 1==strcmp('Curreir',Mdat(i,2) && Mdat(i,40)==2021)
+        Mdat(i,end+1)=1;
+    else
+        Mdat(i,end+1)=0;
     end
 end

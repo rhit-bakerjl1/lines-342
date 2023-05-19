@@ -15,3 +15,18 @@ A   = [x1, x2, x3];
 mdl     = fitlm(A, y);
 A_new   = [x1, x2];
 mdl2    = fitlm(A_new, y);
+
+% Project 1 Time!
+data    = readmatrix('car_data.xls');
+y_car   = data(:,1);
+A_car   = data(:,[2,7:12]);
+[coeffs, A_found, R_sq] = func_fwd_regression(A_car, y_car);
+
+% Plotting
+y_mod   = [ones(size(y_car)), A_found]*coeffs';
+figure(1);
+clf;
+plot(y_car, 'o');
+hold on;
+plot(y_mod);
+ylabel("Car Price");

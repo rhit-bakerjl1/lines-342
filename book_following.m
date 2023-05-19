@@ -23,7 +23,7 @@ A_car   = data(:,[2,7:12]);
 [coeffs, A_found, R_sq] = func_fwd_regression(A_car, y_car);
 
 % Plotting
-y_mod   = [ones(size(y_car)), A_found]*coeffs';
+y_mod   = [ones(size(y_car)), A_found]*coeffs(coeffs~=0)';
 figure(1);
 clf;
 plot(y_car, 'o');

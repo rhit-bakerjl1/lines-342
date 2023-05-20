@@ -17,10 +17,33 @@ A_new   = [x1, x2];
 mdl2    = fitlm(A_new, y);
 [coeffs, A_found, R_sq] = func_fwd_regression(A, y);
 
-% Project 1 Time!
+%% Project 1 Time!
+% options
+make    = 1;
+cyl_cat = 1;
+data1   = readcell('car_data.xls');
 data    = readmatrix('car_data.xls');
+% Make: Buick, Cadillac, Chevrolet, Pontiac, SAAB, Saturn
+carMake = data1(2:end,3);
+x3p     = strcmp(carMake, 'Cadillac');
+x3pp    = strcmp(carMake, 'Chevrolet');
+x3ppp   = strcmp(carMake, 'Pontiac');
+x3pppp  = strcmp(carMake, 'SAAB');
+x3ppppp = strcmp(carMake, 'Saturn');
+makeMat = [x3p, x3pp, x3ppp, x3pppp, x3ppppp];
+% Cylinders: 4, 6, 8
+x7p     = data(:,7) == 6;
+x7pp    = data(:,7) == 8;
 y_car   = data(:,1);
-A_car   = data(:,[2,7:12]);
+A_car   = [data(:,[2,8:12])];
+if (cyl_cat)
+    A_car = [A_car, x7p, x7pp];
+else
+    A_car = [A_car, data(:,7)];
+end
+if (make)
+    A_car = [A_car, makeMat];
+end
 [coeffs, A_found, R_sq] = func_fwd_regression(A_car, y_car);
 % Plotting
 y=[ones(size(y_car)), A_found];

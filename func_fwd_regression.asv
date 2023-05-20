@@ -15,13 +15,15 @@ function [coeffs, A_found, R_sq] = func_fwd_regression(A, y)
         col_best = 0;
         for newCol = 1:length(curr_inds)
             colInd  = curr_inds(newCol);
+      
             if (~exist("A_found", 'var'))
-                A_found = A(:,colInd);
+                A_found = A(:,curr_inds);
             else
-                A_found = [A_found, A(:,colInd)];
+                A_found = A(:,curr_inds);
             end
+           
             mdl     = fitlm(A_found, y);
-            mdl_table   = mdl.Coefficients;
+            mdl_table   = mdl.Coefficients
             mdl_arr     = table2array(mdl_table);
             newCoeffs   = mdl_arr(:,1);
             if (~exist('y_est', 'var'))
@@ -37,9 +39,8 @@ function [coeffs, A_found, R_sq] = func_fwd_regression(A, y)
             if (width(A_found) == 1) 
                 clear A_found;
             else
-                A_found     = A_found(:,1:end-1);
+                A_found     = A(:,curr_inds);
             end
-            
         end
         % Analyze our fits
         % [~, col_best] = max(F_vals);

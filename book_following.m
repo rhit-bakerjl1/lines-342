@@ -19,46 +19,46 @@ mdl2    = fitlm(A_new, y);
 
 %% Project 1 Time!
 % options
-make    = 1;
+make    = 0;
 cyl_cat = 1;
-data1   = readcell('car_data.xls');
-data    = readmatrix('car_data.xls');
+%data1   = readcell('air_data.xls');
+data    = readmatrix('air_data.csv');
 % Make: Buick, Cadillac, Chevrolet, Pontiac, SAAB, Saturn
-carMake = data1(2:end,3);
-x3p     = strcmp(carMake, 'Cadillac');
-x3pp    = strcmp(carMake, 'Chevrolet');
-x3ppp   = strcmp(carMake, 'Pontiac');
-x3pppp  = strcmp(carMake, 'SAAB');
-x3ppppp = strcmp(carMake, 'Saturn');
-makeMat = [x3p, x3pp, x3ppp, x3pppp, x3ppppp];
+%carMake = data1(2:end,3);
+%x3p     = strcmp(carMake, 'Cadillac');
+%x3pp    = strcmp(carMake, 'Chevrolet');
+%x3ppp   = strcmp(carMake, 'Pontiac');
+%x3pppp  = strcmp(carMake, 'SAAB');
+%x3ppppp = strcmp(carMake, 'Saturn');
+%makeMat = [x3p, x3pp, x3ppp, x3pppp, x3ppppp];
 % Cylinders: 4, 6, 8
 x7p     = data(:,7) == 6;
 x7pp    = data(:,7) == 8;
-y_car   = data(:,1);
-A_car   = [data(:,[2,8:12])];
+y_air   = data(:,1);
+A_air   = [data(:,2:end)];
 if (cyl_cat)
-    A_car = [A_car, x7p, x7pp];
+    %A_car = [A_car, x7p, x7pp];
 else
-    A_car = [A_car, data(:,7)];
+    %A_car = [A_car, data(:,7)];
 end
 if (make)
     A_car = [A_car, makeMat];
 end
-[coeffs, A_found, R_sq] = func_fwd_regression(A_car, y_car);
+[coeffs, A_found, R_sq] = func_fwd_regression(A_air, y_air);
 % Plotting
-y=[ones(size(y_car)), A_found];
-y_mod   = [ones(size(y_car)) A_car]*coeffs';
+y=[ones(size(y_air)), A_found];
+y_mod   = [ones(size(y_air)) A_air]*coeffs';
 
 figure(1);
 clf;
-plot(y_car, '-');
+plot(y_air, '-');
 hold on;
 plot(y_mod);
-ylabel("Car Price");
+ylabel("Total Injuries");
 legend("Data", "Modeled");
 
-figure(2);
-clf;
-plot(data(:,8), y_car, "o");
-xlabel("Liter (L)");
-ylabel("Car Price ($)");
+%figure(2);
+%clf;
+%plot(data(:,8), y_air, "o");
+%xlabel("Liter (L)");
+%ylabel("Total Injuries");
